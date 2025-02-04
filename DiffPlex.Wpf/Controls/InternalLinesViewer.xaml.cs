@@ -96,10 +96,10 @@ internal partial class InternalLinesViewer : UserControl
         {
             Text = value
         };
-        if (!string.IsNullOrEmpty(value))
+        if(!string.IsNullOrEmpty(value))
         {
             text.SetBinding(TextBlock.ForegroundProperty, GetBindings(changeType + "Foreground", source, Foreground));
-            text.SetBinding(TextBlock.BackgroundProperty, GetBindings(changeType + "Background", source));
+            text.SetBinding(TextBlock.BackgroundProperty, GetBindings(changeType + "BackgroundHighlight", source));
             ApplyTextBlockProperties(text, source);
             panel.ContextMenu = LineContextMenu;
         }
@@ -134,25 +134,26 @@ internal partial class InternalLinesViewer : UserControl
         var panel = new StackPanel { Orientation = Orientation.Horizontal };
         panel.SetBinding(BackgroundProperty, GetBindings(changeType + "Background", source));
         value ??= new List<KeyValuePair<string, string>>();
-        foreach (var ele in value)
+        foreach(var ele in value)
         {
-            if (string.IsNullOrEmpty(ele.Key)) continue;
+            if(string.IsNullOrEmpty(ele.Key))
+                continue;
             var text = new TextBlock
             {
                 Text = ele.Key
             };
-            if (!string.IsNullOrEmpty(ele.Value))
+            if(!string.IsNullOrEmpty(ele.Value))
             {
-                if (!string.IsNullOrEmpty(ele.Key))
+                if(!string.IsNullOrEmpty(ele.Key))
                     text.SetBinding(TextBlock.ForegroundProperty, GetBindings(ele.Value + "Foreground", source, Foreground));
-                text.SetBinding(TextBlock.BackgroundProperty, GetBindings(ele.Value + "Background", source));
+                text.SetBinding(TextBlock.BackgroundProperty, GetBindings(ele.Value + "BackgroundHighlight", source));
             }
 
             ApplyTextBlockProperties(text, source);
             panel.Children.Add(text);
         }
 
-        if (panel.Children.Count == 0)
+        if(panel.Children.Count == 0)
         {
             panel.Children.Add(new TextBlock());
         }
@@ -170,18 +171,21 @@ internal partial class InternalLinesViewer : UserControl
         try
         {
             var visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            if (NumberPanel.Children[index] is TextBlock number) number.Visibility = visibility;
-            if (OperationPanel.Children[index] is TextBlock operation) operation.Visibility = visibility;
-            if (ValuePanel.Children[index] is StackPanel value) value.Visibility = visibility;
+            if(NumberPanel.Children[index] is TextBlock number)
+                number.Visibility = visibility;
+            if(OperationPanel.Children[index] is TextBlock operation)
+                operation.Visibility = visibility;
+            if(ValuePanel.Children[index] is StackPanel value)
+                value.Visibility = visibility;
         }
-        catch (ArgumentOutOfRangeException)
+        catch(ArgumentOutOfRangeException)
         {
         }
     }
 
     public IEnumerable<object> GetTagsOfEachLine()
     {
-        foreach (var item in ValuePanel.Children)
+        foreach(var item in ValuePanel.Children)
         {
             yield return item is StackPanel p ? p?.Tag : null;
         }
@@ -189,13 +193,15 @@ internal partial class InternalLinesViewer : UserControl
 
     private Binding GetBindings(string key, UIElement source)
     {
-        if (bindings.TryGetValue(key, out var r) && r.Source == source) return r;
+        if(bindings.TryGetValue(key, out var r) && r.Source == source)
+            return r;
         return bindings[key] = new Binding(key) { Source = source, Mode = BindingMode.OneWay };
     }
 
     private Binding GetBindings(string key, UIElement source, object defaultValue)
     {
-        if (bindings.TryGetValue(key, out var r) && r.Source == source) return r;
+        if(bindings.TryGetValue(key, out var r) && r.Source == source)
+            return r;
         return bindings[key] = new Binding(key) { Source = source, Mode = BindingMode.OneWay, TargetNullValue = defaultValue };
     }
 
@@ -208,20 +214,22 @@ internal partial class InternalLinesViewer : UserControl
     {
         var isV = ValueScrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible;
         var hasV = ValuePanel.Margin.Bottom > 10;
-        if (isV)
+        if(isV)
         {
-            if (!hasV) ValuePanel.Margin = NumberPanel.Margin = OperationPanel.Margin = new Thickness(0, 0, 0, 20);
+            if(!hasV)
+                ValuePanel.Margin = NumberPanel.Margin = OperationPanel.Margin = new Thickness(0, 0, 0, 20);
         }
         else
         {
-            if (hasV) ValuePanel.Margin = NumberPanel.Margin = OperationPanel.Margin = new Thickness(0);
+            if(hasV)
+                ValuePanel.Margin = NumberPanel.Margin = OperationPanel.Margin = new Thickness(0);
         }
     }
 
     private void ApplyTextBlockProperties(TextBlock text, UIElement source)
     {
         text.SetBinding(TextBlock.FontSizeProperty, GetBindings("FontSize", source));
-        text.SetBinding(TextBlock.FontFamilyProperty, GetBindings("FontFamily", source, Helper.FontFamily ));
+        text.SetBinding(TextBlock.FontFamilyProperty, GetBindings("FontFamily", source, Helper.FontFamily));
         text.SetBinding(TextBlock.FontWeightProperty, GetBindings("FontWeight", source));
         text.SetBinding(TextBlock.FontStretchProperty, GetBindings("FontStretch", source));
         text.SetBinding(TextBlock.FontStyleProperty, GetBindings("FontStyle", source));
@@ -248,7 +256,7 @@ internal partial class InternalLinesViewer : UserControl
 
     private void ScrollVertical(ScrollViewer scrollViewer, double offset)
     {
-        if (Math.Abs(scrollViewer.VerticalOffset - offset) > 1)
+        if(Math.Abs(scrollViewer.VerticalOffset - offset) > 1)
             scrollViewer.ScrollToVerticalOffset(offset);
     }
 

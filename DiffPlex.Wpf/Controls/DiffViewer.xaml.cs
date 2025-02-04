@@ -84,7 +84,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty LineNumberWidthProperty = RegisterDependencyProperty(nameof(LineNumberWidth), 60, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not int n) return;
+        if(d is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not int n)
+            return;
         c.LeftContentPanel.LineNumberWidth = c.RightContentPanel.LineNumberWidth = c.InlineContentPanel.LineNumberWidth = n;
     });
 
@@ -98,7 +99,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty OldTextHeaderProperty = RegisterDependencyProperty<string>(nameof(OldTextHeader), null, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue) return;
+        if(d is not DiffViewer c || e.OldValue == e.NewValue)
+            return;
         c.UpdateHeaderText();
     });
 
@@ -107,7 +109,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty NewTextHeaderProperty = RegisterDependencyProperty<string>(nameof(NewTextHeader), null, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue) return;
+        if(d is not DiffViewer c || e.OldValue == e.NewValue)
+            return;
         c.UpdateHeaderText();
     });
 
@@ -116,10 +119,12 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty HeaderHeightProperty = RegisterDependencyProperty<double>(nameof(HeaderHeight), 0, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue) return;
-        if (e.NewValue is not double n)
+        if(d is not DiffViewer c || e.OldValue == e.NewValue)
+            return;
+        if(e.NewValue is not double n)
         {
-            if (e.NewValue is not int i) return;
+            if(e.NewValue is not int i)
+                return;
             n = i;
         }
 
@@ -129,10 +134,12 @@ public partial class DiffViewer : UserControl
 
     public static readonly DependencyProperty IsCommandBarVisibleProperty = RegisterDependencyProperty(nameof(IsCommandBarVisible), false, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue) return;
-        if (e.NewValue is not bool b)
+        if(d is not DiffViewer c || e.OldValue == e.NewValue)
+            return;
+        if(e.NewValue is not bool b)
         {
-            if (e.NewValue is Visibility v) b = v == Visibility.Visible;
+            if(e.NewValue is Visibility v)
+                b = v == Visibility.Visible;
             return;
         }
 
@@ -141,10 +148,12 @@ public partial class DiffViewer : UserControl
 
     public static readonly DependencyProperty IsOpenFileButtonVisibleProperty = RegisterDependencyProperty(nameof(IsOpenFileButtonVisible), true, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue) return;
-        if (e.NewValue is not bool b)
+        if(d is not DiffViewer c || e.OldValue == e.NewValue)
+            return;
+        if(e.NewValue is not bool b)
         {
-            if (e.NewValue is Visibility v) b = v == Visibility.Visible;
+            if(e.NewValue is Visibility v)
+                b = v == Visibility.Visible;
             return;
         }
 
@@ -169,7 +178,12 @@ public partial class DiffViewer : UserControl
     /// <summary>
     /// The property of text inserted background brush.
     /// </summary>
-    public static readonly DependencyProperty InsertedBackgroundProperty = RegisterDependencyProperty<Brush>(nameof(InsertedBackground), new SolidColorBrush(Color.FromArgb(64, 96, 216, 32)));
+    public static readonly DependencyProperty InsertedBackgroundProperty = RegisterDependencyProperty<Brush>(nameof(InsertedBackground), new SolidColorBrush(Color.FromArgb(32, 96, 216, 32)));
+
+    /// <summary>
+    /// The property of text inserted background hilight brush.
+    /// </summary>
+    public static readonly DependencyProperty InsertedBackgroundHighlightProperty = RegisterDependencyProperty<Brush>(nameof(InsertedBackgroundHighlight), new SolidColorBrush(Color.FromArgb(64, 96, 216, 32)));
 
     /// <summary>
     /// The property of text inserted background brush.
@@ -179,7 +193,12 @@ public partial class DiffViewer : UserControl
     /// <summary>
     /// The property of text inserted background brush.
     /// </summary>
-    public static readonly DependencyProperty DeletedBackgroundProperty = RegisterDependencyProperty<Brush>(nameof(DeletedBackground), new SolidColorBrush(Color.FromArgb(64, 216, 32, 32)));
+    public static readonly DependencyProperty DeletedBackgroundProperty = RegisterDependencyProperty<Brush>(nameof(DeletedBackground), new SolidColorBrush(Color.FromArgb(32, 216, 32, 32)));
+
+    /// <summary>
+    /// The property of text inserted highlight background brush.
+    /// </summary>
+    public static readonly DependencyProperty DeletedBackgroundHighlightProperty = RegisterDependencyProperty<Brush>(nameof(DeletedBackgroundHighlight), new SolidColorBrush(Color.FromArgb(64, 216, 32, 32)));
 
     /// <summary>
     /// The property of text inserted background brush.
@@ -221,9 +240,9 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty IgnoreUnchangedProperty = RegisterDependencyProperty(nameof(IgnoreUnchanged), false, (o, e) =>
     {
-        if (o is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not bool b)
+        if(o is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not bool b)
             return;
-        if (b)
+        if(b)
         {
             var lines = c.LinesContext;
             Helper.CollapseUnchangedSections(c.LeftContentPanel, lines);
@@ -247,10 +266,11 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty LinesContextProperty = RegisterDependencyProperty(nameof(LinesContext), 1, (o, e) =>
     {
-        if (o is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not int i)
+        if(o is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not int i)
             return;
-        if (i < 0) i = 0;
-        if (c.IgnoreUnchanged)
+        if(i < 0)
+            i = 0;
+        if(c.IgnoreUnchanged)
         {
             Helper.CollapseUnchangedSections(c.LeftContentPanel, i);
             Helper.CollapseUnchangedSections(c.RightContentPanel, i);
@@ -265,7 +285,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public static readonly DependencyProperty IsSideBySideProperty = RegisterDependencyProperty(nameof(IsSideBySide), true, (d, e) =>
     {
-        if (d is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not bool b) return;
+        if(d is not DiffViewer c || e.OldValue == e.NewValue || e.NewValue is not bool b)
+            return;
         c.SideBySideModeToggle.IsChecked = b;
         c.InlineModeToggle.IsChecked = !b;
         c.ChangeViewMode(b);
@@ -525,6 +546,16 @@ public partial class DiffViewer : UserControl
     }
 
     /// <summary>
+    /// Gets or sets the background brush of the line added.
+    /// </summary>
+    [Bindable(true)]
+    public Brush InsertedBackgroundHighlight
+    {
+        get => (Brush)GetValue(InsertedBackgroundHighlightProperty);
+        set => SetValue(InsertedBackgroundHighlightProperty, value);
+    }
+
+    /// <summary>
     /// Gets or sets the foreground brush of the line deleted.
     /// </summary>
     [Bindable(true)]
@@ -542,6 +573,16 @@ public partial class DiffViewer : UserControl
     {
         get => (Brush)GetValue(DeletedBackgroundProperty);
         set => SetValue(DeletedBackgroundProperty, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the background brush of the line deleted.
+    /// </summary>
+    [Bindable(true)]
+    public Brush DeletedBackgroundHighlight
+    {
+        get => (Brush)GetValue(DeletedBackgroundHighlightProperty);
+        set => SetValue(DeletedBackgroundHighlightProperty, value);
     }
 
     /// <summary>
@@ -766,7 +807,8 @@ public partial class DiffViewer : UserControl
     public void SetOldText(string value, string header = null)
     {
         OldText = value ?? string.Empty;
-        if (header != null) OldTextHeader = header;
+        if(header != null)
+            OldTextHeader = header;
     }
 
     /// <summary>
@@ -777,7 +819,8 @@ public partial class DiffViewer : UserControl
     public void SetNewText(string value, string header = null)
     {
         NewText = value ?? string.Empty;
-        if (header != null) NewTextHeader = header;
+        if(header != null)
+            NewTextHeader = header;
     }
 
     /// <summary>
@@ -791,11 +834,11 @@ public partial class DiffViewer : UserControl
         string left = string.Empty;
         OldTextHeader = GenerateHeader(oldFile);
         NewTextHeader = GenerateHeader(newFile);
-        if (oldFile != null)
+        if(oldFile != null)
         {
             using var reader1 = oldFile.OpenText();
             left = await reader1.ReadToEndAsync();
-            if (oldFile == newFile)
+            if(oldFile == newFile)
             {
                 OldText = NewText = left;
                 return;
@@ -803,7 +846,7 @@ public partial class DiffViewer : UserControl
         }
 
         string right = string.Empty;
-        if (newFile != null)
+        if(newFile != null)
         {
             using var reader2 = newFile.OpenText();
             right = await reader2.ReadToEndAsync();
@@ -828,7 +871,8 @@ public partial class DiffViewer : UserControl
     {
         var text = OpenFileOnLeft(null, out var file);
         NewText = text;
-        if (text == null) return;
+        if(text == null)
+            return;
         NewTextHeader = GenerateHeader(file);
     }
 
@@ -846,7 +890,8 @@ public partial class DiffViewer : UserControl
     public string OpenFileOnLeft(string header, out FileInfo file)
     {
         var text = OpenTextFile(out file);
-        if (text == null) return null;
+        if(text == null)
+            return null;
         OldText = text;
         OldTextHeader = header ?? GenerateHeader(file);
         return text;
@@ -866,7 +911,8 @@ public partial class DiffViewer : UserControl
     public string OpenFileOnRight(string header, out FileInfo file)
     {
         var text = OpenTextFile(out file);
-        if (text == null) return null;
+        if(text == null)
+            return null;
         NewText = text;
         NewTextHeader = header ?? GenerateHeader(file);
         return text;
@@ -877,7 +923,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public SideBySideDiffModel GetSideBySideDiffModel()
     {
-        if (sideBySideResult != null || OldText == null || NewText == null) return sideBySideResult;
+        if(sideBySideResult != null || OldText == null || NewText == null)
+            return sideBySideResult;
         sideBySideResult = SideBySideDiffBuilder.Diff(OldText, NewText, IgnoreWhiteSpace, IgnoreCase);
         RenderSideBySideDiffs();
         return sideBySideResult;
@@ -888,7 +935,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public DiffPaneModel GetInlineDiffModel()
     {
-        if (inlineResult != null || OldText == null || NewText == null) return inlineResult;
+        if(inlineResult != null || OldText == null || NewText == null)
+            return inlineResult;
         inlineResult = InlineDiffBuilder.Diff(OldText, NewText, IgnoreWhiteSpace, IgnoreCase);
         RenderInlineDiffs();
         return inlineResult;
@@ -899,11 +947,11 @@ public partial class DiffViewer : UserControl
     /// </summary>
     public void Refresh()
     {
-        if (InlineContentPanel.Visibility == Visibility.Visible)
+        if(InlineContentPanel.Visibility == Visibility.Visible)
         {
             sideBySideResult = null;
             RenderSideBySideDiffs();
-            if (NewText == null || OldText == null)
+            if(NewText == null || OldText == null)
             {
                 inlineResult = null;
                 RenderInlineDiffs();
@@ -917,7 +965,7 @@ public partial class DiffViewer : UserControl
 
         inlineResult = null;
         RenderInlineDiffs();
-        if (NewText == null || OldText == null)
+        if(NewText == null || OldText == null)
         {
             sideBySideResult = null;
             RenderSideBySideDiffs();
@@ -951,7 +999,7 @@ public partial class DiffViewer : UserControl
         LeftContentPanel.Visibility = RightContentPanel.Visibility = LeftHeaderText.Visibility = RightHeaderText.Visibility = Splitter.Visibility
             = (isSideBySide ? Visibility.Visible : Visibility.Collapsed);
 
-        if (isSideBySide)
+        if(isSideBySide)
             GetSideBySideDiffModel();
         else
             GetInlineDiffModel();
@@ -967,8 +1015,10 @@ public partial class DiffViewer : UserControl
     /// <returns>true if it has turned to the specific line; otherwise, false.</returns>
     public bool GoTo(int lineIndex, bool isLeftLine = false)
     {
-        if (IsSideBySideViewMode) return Helper.GoTo(isLeftLine ? LeftContentPanel : RightContentPanel, lineIndex);
-        else return Helper.GoTo(InlineContentPanel, lineIndex);
+        if(IsSideBySideViewMode)
+            return Helper.GoTo(isLeftLine ? LeftContentPanel : RightContentPanel, lineIndex);
+        else
+            return Helper.GoTo(InlineContentPanel, lineIndex);
     }
 
     /// <summary>
@@ -979,8 +1029,10 @@ public partial class DiffViewer : UserControl
     /// <returns>true if it has turned to the specific line; otherwise, false.</returns>
     public bool GoTo(DiffPiece line, bool isLeftLine = false)
     {
-        if (IsSideBySideViewMode) return Helper.GoTo(isLeftLine ? LeftContentPanel : RightContentPanel, line);
-        else return Helper.GoTo(InlineContentPanel, line);
+        if(IsSideBySideViewMode)
+            return Helper.GoTo(isLeftLine ? LeftContentPanel : RightContentPanel, line);
+        else
+            return Helper.GoTo(InlineContentPanel, line);
     }
 
     /// <summary>
@@ -991,8 +1043,10 @@ public partial class DiffViewer : UserControl
     /// <returns>The line diff information instance; or null, if non-exists.</returns>
     public DiffPiece GetLine(int lineIndex, bool isLeftLine = false)
     {
-        if (IsSideBySideViewMode) return Helper.GetLine(isLeftLine ? LeftContentPanel : RightContentPanel, lineIndex);
-        else return Helper.GetLine(InlineContentPanel, lineIndex);
+        if(IsSideBySideViewMode)
+            return Helper.GetLine(isLeftLine ? LeftContentPanel : RightContentPanel, lineIndex);
+        else
+            return Helper.GetLine(InlineContentPanel, lineIndex);
     }
 
     /// <summary>
@@ -1003,8 +1057,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines.</returns>
     public IEnumerable<DiffPiece> GetLinesInViewport(bool isLeftLine = false, VisibilityLevels level = VisibilityLevels.Any)
     {
-        if (IsSideBySideViewMode) return Helper.GetLinesInViewport(isLeftLine ? LeftContentPanel : RightContentPanel, level);
-        else return Helper.GetLinesInViewport(InlineContentPanel, level);
+        if(IsSideBySideViewMode)
+            return Helper.GetLinesInViewport(isLeftLine ? LeftContentPanel : RightContentPanel, level);
+        else
+            return Helper.GetLinesInViewport(InlineContentPanel, level);
     }
 
     /// <summary>
@@ -1014,8 +1070,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines.</returns>
     public IEnumerable<DiffPiece> GetLinesInViewport(VisibilityLevels level)
     {
-        if (IsSideBySideViewMode) return Helper.GetLinesInViewport(RightContentPanel, level);
-        else return Helper.GetLinesInViewport(InlineContentPanel, level);
+        if(IsSideBySideViewMode)
+            return Helper.GetLinesInViewport(RightContentPanel, level);
+        else
+            return Helper.GetLinesInViewport(InlineContentPanel, level);
     }
 
     /// <summary>
@@ -1026,8 +1084,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines.</returns>
     public IEnumerable<DiffPiece> GetLinesBeforeViewport(bool isLeftLine = false, VisibilityLevels level = VisibilityLevels.Any)
     {
-        if (IsSideBySideViewMode) return Helper.GetLinesBeforeViewport(isLeftLine ? LeftContentPanel : RightContentPanel, level);
-        else return Helper.GetLinesBeforeViewport(InlineContentPanel, level);
+        if(IsSideBySideViewMode)
+            return Helper.GetLinesBeforeViewport(isLeftLine ? LeftContentPanel : RightContentPanel, level);
+        else
+            return Helper.GetLinesBeforeViewport(InlineContentPanel, level);
     }
 
     /// <summary>
@@ -1037,8 +1097,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines.</returns>
     public IEnumerable<DiffPiece> GetLinesBeforeViewport(VisibilityLevels level)
     {
-        if (IsSideBySideViewMode) return Helper.GetLinesBeforeViewport(RightContentPanel, level);
-        else return Helper.GetLinesBeforeViewport(InlineContentPanel, level);
+        if(IsSideBySideViewMode)
+            return Helper.GetLinesBeforeViewport(RightContentPanel, level);
+        else
+            return Helper.GetLinesBeforeViewport(InlineContentPanel, level);
     }
 
     /// <summary>
@@ -1049,8 +1111,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines.</returns>
     public IEnumerable<DiffPiece> GetLinesAfterViewport(bool isLeftLine = false, VisibilityLevels level = VisibilityLevels.Any)
     {
-        if (IsSideBySideViewMode) return Helper.GetLinesAfterViewport(isLeftLine ? LeftContentPanel : RightContentPanel, level);
-        else return Helper.GetLinesAfterViewport(InlineContentPanel, level);
+        if(IsSideBySideViewMode)
+            return Helper.GetLinesAfterViewport(isLeftLine ? LeftContentPanel : RightContentPanel, level);
+        else
+            return Helper.GetLinesAfterViewport(InlineContentPanel, level);
     }
 
     /// <summary>
@@ -1060,8 +1124,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines.</returns>
     public IEnumerable<DiffPiece> GetLinesAfterViewport(VisibilityLevels level)
     {
-        if (IsSideBySideViewMode) return Helper.GetLinesAfterViewport(RightContentPanel, level);
-        else return Helper.GetLinesAfterViewport(InlineContentPanel, level);
+        if(IsSideBySideViewMode)
+            return Helper.GetLinesAfterViewport(RightContentPanel, level);
+        else
+            return Helper.GetLinesAfterViewport(InlineContentPanel, level);
     }
 
     /// <summary>
@@ -1071,8 +1137,10 @@ public partial class DiffViewer : UserControl
     /// <returns>All lines with the given string.</returns>
     public IEnumerable<DiffPiece> Find(string q)
     {
-        if (IsSideBySide) return Helper.Find(RightContentPanel, q);
-        else return Helper.Find(InlineContentPanel, q);
+        if(IsSideBySide)
+            return Helper.Find(RightContentPanel, q);
+        else
+            return Helper.Find(InlineContentPanel, q);
     }
 
     /// <summary>
@@ -1090,13 +1158,13 @@ public partial class DiffViewer : UserControl
     /// <exception cref="ArgumentOutOfRangeException">contextLineCount was less than 0.</exception>
     public void CollapseUnchangedSections(int? contextLineCount = null)
     {
-        if (contextLineCount.HasValue)
+        if(contextLineCount.HasValue)
         {
-            if (contextLineCount.Value >= 0)
+            if(contextLineCount.Value >= 0)
             {
                 LinesContext = contextLineCount.Value;
             }
-            else if (contextLineCount.Value == -1)
+            else if(contextLineCount.Value == -1)
             {
                 IgnoreUnchanged = false;
                 return;
@@ -1138,7 +1206,8 @@ public partial class DiffViewer : UserControl
 
     private void ContextLineMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not MenuItem m || m.Header is not string s || !int.TryParse(s.Replace("_", string.Empty), out var i) || i < 0) return;
+        if(sender is not MenuItem m || m.Header is not string s || !int.TryParse(s.Replace("_", string.Empty), out var i) || i < 0)
+            return;
         LinesContext = i;
     }
 
@@ -1151,8 +1220,9 @@ public partial class DiffViewer : UserControl
         RightContentPanel.Clear();
         var m = sideBySideResult;
         CollapseUnchangedSectionsToggle.IsChecked = IgnoreUnchanged;
-        if (m == null) return;
-        var contextLineCount = IgnoreUnchanged ? LinesContext: -1;
+        if(m == null)
+            return;
+        var contextLineCount = IgnoreUnchanged ? LinesContext : -1;
         Helper.InsertLines(LeftContentPanel, m.OldText?.Lines, true, this, contextLineCount);
         Helper.InsertLines(RightContentPanel, m.NewText.Lines, false, this, contextLineCount);
     }
@@ -1162,7 +1232,8 @@ public partial class DiffViewer : UserControl
     /// </summary>
     private void RenderInlineDiffs()
     {
-        if (inlineResult?.Lines == null) return;
+        if(inlineResult?.Lines == null)
+            return;
         ICollection<DiffPiece> selectedLines = inlineResult.Lines;
         Helper.RenderInlineDiffs(InlineContentPanel, selectedLines, this, IgnoreUnchanged ? LinesContext : -1);
     }
@@ -1170,14 +1241,14 @@ public partial class DiffViewer : UserControl
     private void LeftContentPanel_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
         var offset = LeftContentPanel.VerticalOffset;
-        if (Math.Abs(RightContentPanel.VerticalOffset - offset) > 1)
+        if(Math.Abs(RightContentPanel.VerticalOffset - offset) > 1)
             RightContentPanel.ScrollToVerticalOffset(offset);
     }
 
     private void RightContentPanel_ScrollChanged(object sender, ScrollChangedEventArgs e)
     {
         var offset = RightContentPanel.VerticalOffset;
-        if (Math.Abs(LeftContentPanel.VerticalOffset - offset) > 1)
+        if(Math.Abs(LeftContentPanel.VerticalOffset - offset) > 1)
             LeftContentPanel.ScrollToVerticalOffset(offset);
     }
 
@@ -1195,14 +1266,15 @@ public partial class DiffViewer : UserControl
     {
         LeftHeaderText.Text = OldTextHeader;
         RightHeaderText.Text = NewTextHeader;
-        if (string.IsNullOrEmpty(OldTextHeader) && string.IsNullOrEmpty(NewTextHeader))
+        if(string.IsNullOrEmpty(OldTextHeader) && string.IsNullOrEmpty(NewTextHeader))
         {
             InlineHeaderText.Text = null;
             return;
         }
 
         InlineHeaderText.Text = $"{OldTextHeader ?? string.Empty} → {NewTextHeader ?? string.Empty}";
-        if (isHeaderEnabled) return;
+        if(isHeaderEnabled)
+            return;
         HeaderHeight = 20;
     }
 
@@ -1223,7 +1295,7 @@ public partial class DiffViewer : UserControl
 
     private void RefreshContextLinesMenuItemState(int i)
     {
-        if (i > 9)
+        if(i > 9)
         {
             CustomizedContextLineMenuItem.Header = i.ToString("g");
             CustomizedContextLineMenuItem.Visibility = Visibility.Visible;
@@ -1235,10 +1307,11 @@ public partial class DiffViewer : UserControl
         }
 
         var j = -1;
-        foreach (var menu in ContextLinesMenuItems.Items)
+        foreach(var menu in ContextLinesMenuItems.Items)
         {
             j++;
-            if (menu is MenuItem mi) mi.IsChecked = i == j;
+            if(menu is MenuItem mi)
+                mi.IsChecked = i == j;
         }
     }
 
@@ -1291,7 +1364,7 @@ public partial class DiffViewer : UserControl
         var isLeft = string.IsNullOrEmpty(NewText);
         var pageSize = GetLinesInViewport(isLeft, VisibilityLevels.All).Count();
         var lines = GetLinesBeforeViewport(isLeft, VisibilityLevels.All).Reverse().ToList();
-        if (lines.Count < pageSize)
+        if(lines.Count < pageSize)
         {
             var last = lines.LastOrDefault();
             GoTo(last);
@@ -1318,28 +1391,30 @@ public partial class DiffViewer : UserControl
 
     private string GenerateHeader(FileInfo file)
     {
-        if (file == null || !file.Exists) return Resource.Empty;
+        if(file == null || !file.Exists)
+            return Resource.Empty;
         try
         {
             var dir = file.Directory;
-            if (!string.IsNullOrWhiteSpace(dir?.Name)) return string.Concat(dir.Name, '\\', file.Name);
+            if(!string.IsNullOrWhiteSpace(dir?.Name))
+                return string.Concat(dir.Name, '\\', file.Name);
         }
-        catch (IOException)
+        catch(IOException)
         {
         }
-        catch (SecurityException)
+        catch(SecurityException)
         {
         }
-        catch (UnauthorizedAccessException)
+        catch(UnauthorizedAccessException)
         {
         }
-        catch (InvalidOperationException)
+        catch(InvalidOperationException)
         {
         }
-        catch (NotSupportedException)
+        catch(NotSupportedException)
         {
         }
-        catch (ExternalException)
+        catch(ExternalException)
         {
         }
 
@@ -1348,14 +1423,15 @@ public partial class DiffViewer : UserControl
 
     private void OpenFileButton_Click(object sender, RoutedEventArgs e)
     {
-        if (OldText == null)
+        if(OldText == null)
         {
             var text = OpenFileOnLeft(null, out var file);
-            if (text == null || NewText != null) return;
+            if(text == null || NewText != null)
+                return;
             NewText = text;
             NewTextHeader = GenerateHeader(file);
         }
-        else if (NewText == null)
+        else if(NewText == null)
         {
             OpenRightFileMenuItem_Click(sender, e);
         }
@@ -1373,7 +1449,7 @@ public partial class DiffViewer : UserControl
 
     private void DiffButton_Click(object sender, RoutedEventArgs e)
     {
-        if (IsInlineViewMode)
+        if(IsInlineViewMode)
         {
             ShowSideBySide();
             return;
@@ -1390,8 +1466,10 @@ public partial class DiffViewer : UserControl
     private void GoToText_TextChanged(object sender, TextChangedEventArgs e)
     {
         var s = GoToText.Text?.Trim();
-        if (string.IsNullOrEmpty(s)) return;
-        if (!int.TryParse(s, out var i)) return;
+        if(string.IsNullOrEmpty(s))
+            return;
+        if(!int.TryParse(s, out var i))
+            return;
         GoTo(i, string.IsNullOrEmpty(NewText));
     }
 
@@ -1412,14 +1490,14 @@ public partial class DiffViewer : UserControl
         {
             Filter = FileFilter
         };
-        if (dialog.ShowDialog() != true)
+        if(dialog.ShowDialog() != true)
         {
             file = null;
             return null;
         }
 
         var fileName = dialog.FileName;
-        if (string.IsNullOrWhiteSpace(fileName))
+        if(string.IsNullOrWhiteSpace(fileName))
         {
             file = null;
             return null;
@@ -1429,27 +1507,27 @@ public partial class DiffViewer : UserControl
         {
             file = new FileInfo(fileName);
         }
-        catch (ArgumentException)
+        catch(ArgumentException)
         {
             file = null;
         }
-        catch (IOException)
+        catch(IOException)
         {
             file = null;
         }
-        catch (InvalidOperationException)
+        catch(InvalidOperationException)
         {
             file = null;
         }
-        catch (UnauthorizedAccessException)
+        catch(UnauthorizedAccessException)
         {
             file = null;
         }
-        catch (NotSupportedException)
+        catch(NotSupportedException)
         {
             file = null;
         }
-        catch (SecurityException)
+        catch(SecurityException)
         {
             file = null;
         }
@@ -1458,22 +1536,22 @@ public partial class DiffViewer : UserControl
         {
             return File.ReadAllText(fileName);
         }
-        catch (ArgumentException)
+        catch(ArgumentException)
         {
         }
-        catch (IOException)
+        catch(IOException)
         {
         }
-        catch (InvalidOperationException)
+        catch(InvalidOperationException)
         {
         }
-        catch (UnauthorizedAccessException)
+        catch(UnauthorizedAccessException)
         {
         }
-        catch (NotSupportedException)
+        catch(NotSupportedException)
         {
         }
-        catch (SecurityException)
+        catch(SecurityException)
         {
         }
 
@@ -1494,7 +1572,8 @@ public partial class DiffViewer : UserControl
     {
         return DependencyProperty.Register(name, typeof(T), typeof(DiffViewer), new PropertyMetadata(defaultValue, (d, e) =>
         {
-            if (d is not DiffViewer c || e.OldValue == e.NewValue) return;
+            if(d is not DiffViewer c || e.OldValue == e.NewValue)
+                return;
             c.Refresh();
         }));
     }
